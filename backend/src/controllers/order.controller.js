@@ -26,6 +26,7 @@ export const createOrder = async (req, res) => {
       items: orderItems,
       totalPrice,
       shippingAddress: req.body.shippingAddress,
+      status: 'pending',
     });
 
     // Clear cart
@@ -42,7 +43,9 @@ export const createOrder = async (req, res) => {
 // Get orders for logged in user
 export const getMyOrders = async (req, res) => {
   try {
-    const orders = await Order.find({ user: req.user._id });
+    const orders = await Order.find({ user: req.user._id }).populate(
+      'items.product',
+    );
     res.json(orders);
   } catch (error) {
     res.status(500).json({ message: 'Error fetching orders', error });
@@ -52,7 +55,9 @@ export const getMyOrders = async (req, res) => {
 //Get Single Order
 export const getOrderById = async (req, res) => {
   try {
-    const order = await Order.findById(req.params.id).populate('user');
+    const order = await Order.findById(req.params.id)
+      .populate('user')
+      .populate('items.product');
 
     if (!order) return res.status(404).json({ message: 'Order not found' });
 
@@ -65,7 +70,9 @@ export const getOrderById = async (req, res) => {
 //admin - Get all orders
 export const getAllOrders = async (req, res) => {
   try {
-    const orders = await Order.find().populate('user', 'name email');
+    const orders = await Order.find()
+      .populate('user', 'name email') // 👤 user
+      .populate('items.product', 'name image price');
     res.json(orders);
   } catch (error) {
     res.status(500).json({ message: 'Error fetching orders', error });

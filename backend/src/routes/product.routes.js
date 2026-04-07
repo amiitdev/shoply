@@ -5,13 +5,14 @@ import {
   deleteProduct,
   getProducts,
   getProductById,
+  getCategories,
 } from '../controllers/product.controller.js';
 
 import { authMiddleware, adminOnly } from '../middleware/auth.middleware.js';
 import upload from '../middleware/upload.middleware.js';
 
 const router = express.Router();
-
+router.get('/categories', getCategories);
 router.get('/', getProducts);
 router.get('/:id', getProductById);
 router.post(
