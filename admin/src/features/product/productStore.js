@@ -6,20 +6,6 @@ const useProductStore = create((set) => ({
   loading: false,
   error: null,
 
-  // Get All products
-  // fetchProducts: async () => {
-  //   try {
-  //     set({ loading: true });
-  //     const res = await axios.get('/products');
-  //     set({ products: res.data, loading: false });
-  //   } catch (error) {
-  //     const msg = error.response?.data?.message || 'Error fetching products';
-
-  //     set({ error: msg, loading: false });
-  //     toast.error(msg);
-  //   }
-  // },
-
   fetchProducts: async (filters = {}) => {
     try {
       set({ loading: true });

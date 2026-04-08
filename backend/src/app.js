@@ -10,9 +10,16 @@ import paymentRoutes from './routes/payment.routes.js';
 const app = express();
 app.use(cookieParser());
 
+const isProduction = process.env.NODE_ENV === 'production';
+if (!isProduction) {
+  console.log('You didnt hit production url');
+}
+
 app.use(
   cors({
-    origin: ['http://localhost:5173', 'http://localhost:5174'],
+    origin: isProduction
+      ? 'https://devops-auth-app.vercel.app'
+      : ['http://localhost:5173', 'http://localhost:5174'],
     credentials: true,
   }),
 );
@@ -28,6 +35,7 @@ app.use('/api/products', productRoutes);
 app.use('/api/cart', cartRoutes);
 app.use('/api/orders', orderRoutes);
 app.use('/api/payment', paymentRoutes);
+
 app.get('/', (req, res) => {
   res.send('API is running...');
   console.log('api is running..');
