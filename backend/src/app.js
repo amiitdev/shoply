@@ -18,7 +18,7 @@ if (!isProduction) {
 app.use(
   cors({
     origin: isProduction
-      ? 'https://devops-auth-app.vercel.app'
+      ? 'https://shoply-sage.vercel.app'
       : ['http://localhost:5173', 'http://localhost:5174'],
     credentials: true,
   }),
