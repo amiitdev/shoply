@@ -100,7 +100,7 @@ export const login = async (req, res) => {
         email: user.email,
         role: user.role,
       },
-      token,
+      // token,
     });
   } catch (error) {
     console.error('LOGIN ERROR:', error); // 👈 ADD THIS
@@ -134,9 +134,25 @@ export const adminUser = async (req, res) => {
 };
 
 //Logout User
+// export const logout = async (req, res) => {
+//   try {
+//     res.clearCookie('token');
+//     res.status(200).json({ message: 'Logged out successfully' });
+//   } catch (error) {
+//     res.status(500).json({ message: 'Server error' });
+//   }
+// };
+
 export const logout = async (req, res) => {
   try {
-    res.clearCookie('token');
+    const isProduction = process.env.NODE_ENV === 'production';
+
+    res.clearCookie('token', {
+      httpOnly: true,
+      secure: isProduction,
+      sameSite: isProduction ? 'none' : 'lax',
+    });
+
     res.status(200).json({ message: 'Logged out successfully' });
   } catch (error) {
     res.status(500).json({ message: 'Server error' });
