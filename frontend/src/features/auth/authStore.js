@@ -37,8 +37,11 @@ const useAuthStore = create((set) => ({
   logout: async () => {
     try {
       const response = await axios.post('/auth/logout');
-      set({ user: null, isAuthChecked: true });
+      set({ user: null, isAuthChecked: false });
+      // 🔥 verify with backend
+
       toast.success(response.data.message);
+      await useAuthStore.getState().checkAuth();
     } catch (error) {
       set({ error: error.response.data.message });
     }
