@@ -109,6 +109,7 @@ const Cart = () => {
               alt={item.product.name}
               className="w-24 h-24 object-cover rounded-lg"
             />
+            {/* INFO */}
 
             {/* 📄 INFO */}
             <div className="flex-1 text-center md:text-left">
