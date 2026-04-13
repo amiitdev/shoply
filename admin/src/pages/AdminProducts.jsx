@@ -63,7 +63,10 @@ const AdminProducts = () => {
                     {p.name}
                   </h2>
 
-                  <p className="text-purple-400 font-bold">₹{p.price}</p>
+                  {/* <p className="text-purple-400 font-bold">₹{p.price}</p> */}
+                  <p className="text-purple-400 font-bold">
+                    ₹{new Intl.NumberFormat('en-IN').format(p.price)}
+                  </p>
 
                   {/* ⚡ ACTIONS */}
                   <div className="flex gap-2 pt-2">

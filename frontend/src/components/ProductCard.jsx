@@ -42,9 +42,13 @@ const ProductCard = ({ product }) => {
 
         {/* 💰 PRICE + STOCK */}
         <div className="flex items-center justify-between">
-          <p className="text-xl font-bold bg-gradient-to-r from-pink-400 via-purple-400 to-indigo-400 bg-clip-text text-transparent">
-            ₹{product.price}
-          </p>
+          {product.price >= 1 ? (
+            <p className="text-xl font-bold bg-gradient-to-r from-pink-400 via-purple-400 to-indigo-400 bg-clip-text text-transparent">
+              ₹{new Intl.NumberFormat('en-IN').format(product.price)}
+            </p>
+          ) : (
+            <p className="text-red-400 text-sm">Invalid Price</p>
+          )}
 
           {product.stock > 0 ? (
             <span className="text-xs px-2 py-1 rounded-full bg-green-500/10 text-green-400 border border-green-500/20">

@@ -2,19 +2,51 @@ import Product from '../models/product.model.js';
 import cloudinary from '../config/cloudinary.js';
 import mongoose from 'mongoose';
 
+// export const createProduct = async (req, res) => {
+//   try {
+//     const { name, price } = req.body;
+//     // console.log('BODY:', req.body);
+//     // console.log('FILE:', req.file);
+
+//     if (!name || !price)
+//       return res.status(400).json({ message: 'Name & price required' });
+//     if (!req.file) {
+//       return res.status(400).json({ message: 'Image required' });
+//     }
+//     const product = await Product.create({
+//       ...req.body,
+//       image: req.file.path,
+//       imagePublicId: req.file.filename,
+//       createdBy: req.user._id,
+//     });
+
+//     res.status(201).json(product);
+//   } catch (error) {
+//     res.status(500).json({ message: 'Error creating product' });
+//   }
+// };
 export const createProduct = async (req, res) => {
   try {
-    const { name, price } = req.body;
-    // console.log('BODY:', req.body);
-    // console.log('FILE:', req.file);
+    let { name, price } = req.body;
 
-    if (!name || !price)
+    if (!name || !price) {
       return res.status(400).json({ message: 'Name & price required' });
+    }
+
+    // ✅ REMOVE commas and convert to number
+    price = Number(price.toString().replace(/,/g, ''));
+
+    if (isNaN(price) || price < 1) {
+      return res.status(400).json({ message: 'Invalid price' });
+    }
+
     if (!req.file) {
       return res.status(400).json({ message: 'Image required' });
     }
+
     const product = await Product.create({
       ...req.body,
+      price, // ✅ use cleaned price
       image: req.file.path,
       imagePublicId: req.file.filename,
       createdBy: req.user._id,

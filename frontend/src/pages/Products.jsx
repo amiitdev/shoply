@@ -96,7 +96,8 @@ const Products = () => {
       {/* 🎚️ PRICE SLIDER */}
       <div className="mb-6">
         <label className="text-sm text-gray-400">
-          Max Price: ₹{filters.maxPrice || 10000}
+          Max Price: ₹
+          {new Intl.NumberFormat('en-IN').format(filters.maxPrice || 10000)}
         </label>
 
         <input
@@ -107,7 +108,7 @@ const Products = () => {
           onChange={(e) =>
             setFilters({
               ...filters,
-              maxPrice: e.target.value,
+              maxPrice: Number(e.target.value), // ✅ convert to number
               page: 1,
             })
           }
