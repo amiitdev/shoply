@@ -76,7 +76,7 @@ const stripe = new Stripe(process.env.STRIPE_SECRET_KEY);
 
 const BASE_URL =
   process.env.NODE_ENV === 'production'
-    ? 'https://e-com-frontend-amber.vercel.app'
+    ? 'https://shoply-sage.vercel.app'
     : 'http://localhost:5173';
 
 // 💳 CREATE CHECKOUT SESSION
