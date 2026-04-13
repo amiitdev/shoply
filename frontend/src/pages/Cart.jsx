@@ -5,6 +5,7 @@ import toast from 'react-hot-toast';
 import useCartStore from '../features/cart/cartStore';
 import useOrderStore from '../features/order/orderStore';
 import axios from '../api/axios';
+import { useState } from 'react';
 const Cart = () => {
   const navigate = useNavigate();
 
@@ -80,11 +81,53 @@ const Cart = () => {
     fetchCart();
   }, []);
 
+  const [seconds, setSeconds] = useState(5);
+
+  useEffect(() => {
+    if (!cart?.items?.length) {
+      const timer = setInterval(() => {
+        setSeconds((prev) => prev - 1);
+      }, 1000);
+
+      setTimeout(() => navigate('/'), 5000);
+
+      return () => clearInterval(timer);
+    }
+  }, [cart]);
+
   // ❌ Empty state
   if (!cart || !cart.items || cart.items.length === 0) {
     return (
-      <div className="min-h-screen flex items-center justify-center bg-black text-gray-400">
-        🛒 Your cart is empty
+      <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-black via-gray-900 to-gray-950 px-4">
+        <div className="text-center max-w-md w-full">
+          {/* 🛒 Icon */}
+          <div className="text-6xl mb-4 animate-bounce">🛒</div>
+
+          {/* 🧾 Title */}
+          <h2 className="text-2xl sm:text-3xl font-bold bg-gradient-to-r from-pink-400 via-purple-400 to-indigo-400 bg-clip-text text-transparent mb-3">
+            Your Cart is Empty
+          </h2>
+
+          {/* 📄 Subtitle */}
+          <p className="text-gray-400 text-sm mb-6">
+            Looks like you haven’t added anything yet.
+            <br />
+            Let’s find something amazing ✨
+          </p>
+
+          {/* 🔘 Button */}
+          <button
+            onClick={() => navigate('/')}
+            className="w-full sm:w-auto px-6 py-3 rounded-lg bg-gradient-to-r from-pink-500 via-purple-500 to-indigo-500 hover:opacity-90 transition shadow-lg hover:shadow-purple-500/30 font-medium"
+          >
+            Explore Products
+          </button>
+
+          {/* ⏳ Auto redirect text */}
+          <p className="text-xs text-gray-500 mt-4">
+            Redirecting automatically in a few seconds...
+          </p>
+        </div>
       </div>
     );
   }
