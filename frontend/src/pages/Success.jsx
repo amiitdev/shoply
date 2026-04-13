@@ -13,30 +13,63 @@ const Success = () => {
 
   const orderId = params.get('orderId');
 
+  // useEffect(() => {
+  //   const confirmPayment = async () => {
+  //     try {
+  //       await axios.post('/payment/confirm-payment', {
+  //         orderId,
+  //       });
+
+  //       setLoading(false);
+  //       setDone(true);
+
+  //       toast.success('Payment successful 🎉');
+
+  //       // ⏳ Redirect after animation
+  //       setTimeout(() => {
+  //         navigate('/orders');
+  //       }, 2500);
+  //     } catch (error) {
+  //       setLoading(false);
+  //       toast.error('Payment verification failed');
+  //     }
+  //   };
+
+  //   if (orderId) confirmPayment();
+  // }, []);
+
   useEffect(() => {
-    const confirmPayment = async () => {
+    let interval;
+
+    const checkPaymentStatus = async () => {
       try {
-        await axios.post('/payment/confirm-payment', {
-          orderId,
-        });
+        const { data } = await axios.get(`/orders/${orderId}`);
 
-        setLoading(false);
-        setDone(true);
+        if (data.status === 'paid') {
+          setLoading(false);
+          setDone(true);
 
-        toast.success('Payment successful 🎉');
+          toast.success('Payment successful 🎉');
 
-        // ⏳ Redirect after animation
-        setTimeout(() => {
-          navigate('/orders');
-        }, 2500);
+          clearInterval(interval);
+
+          setTimeout(() => {
+            navigate('/orders');
+          }, 2500);
+        }
       } catch (error) {
         setLoading(false);
-        toast.error('Payment verification failed');
+        toast.error('Something went wrong', error.message);
       }
     };
 
-    if (orderId) confirmPayment();
-  }, []);
+    if (orderId) {
+      // 🔁 Poll every 2 sec (because webhook takes time)
+      interval = setInterval(checkPaymentStatus, 2000);
+    }
+
+    return () => clearInterval(interval);
+  }, [orderId]);
 
   return (
     <div className="min-h-screen flex flex-col items-center justify-center bg-gradient-to-br from-black via-gray-900 to-gray-950 text-white">

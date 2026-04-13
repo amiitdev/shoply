@@ -6,23 +6,10 @@ import cartRoutes from './routes/cart.routes.js';
 import orderRoutes from './routes/order.routes.js';
 import cookieParser from 'cookie-parser';
 import paymentRoutes from './routes/payment.routes.js';
+import webhookRoutes from './routes/webhook.route.js';
 
 const app = express();
 app.use(cookieParser());
-
-// const isProduction = process.env.NODE_ENV === 'production';
-// if (!isProduction) {
-//   console.log('You didnt hit production url');
-// }
-
-// app.use(
-//   cors({
-//     origin: isProduction
-//       ? 'https://shoply-sage.vercel.app'
-//       : ['http://localhost:5173', 'http://localhost:5174'],
-//     credentials: true,
-//   }),
-// );
 
 const allowedOrigins = [
   'https://shoply-sage.vercel.app',
@@ -34,6 +21,8 @@ const corsOptions = {
   origin: allowedOrigins,
   credentials: true,
 };
+
+app.use('/api/webhook', webhookRoutes);
 
 app.use(cors(corsOptions));
 
