@@ -1,26 +1,3 @@
-// import { create } from 'zustand';
-// import axios from '../../api/axios';
-// import { toast } from 'react-hot-toast';
-
-// const useProductStore = create((set) => ({
-//   products: [],
-//   loading: false,
-//   error: null,
-//   fetchProducts: async () => {
-//     try {
-//       set({ loading: true, error: null });
-//       const response = await axios.get('/products');
-//       set({ products: response.data, loading: false });
-//       toast.success('Products fetched successfully');
-//     } catch (error) {
-//       set({ error: error.message, loading: false });
-//       toast.error(error.response?.data?.message || 'Failed to fetch products');
-//     }
-//   },
-// }));
-
-// export default useProductStore;
-
 import { create } from 'zustand';
 import axios from '../../api/axios';
 import { toast } from 'react-hot-toast';

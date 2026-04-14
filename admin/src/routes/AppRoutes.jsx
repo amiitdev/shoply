@@ -1,21 +1,32 @@
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
+import AdminLogin from '../components/AdminLogin';
 import AdminLayout from '../layouts/AdminLayout';
 import AdminDashboard from '../pages/AdminDashboard';
 import AdminProducts from '../pages/AdminProducts';
 import AdminOrders from '../pages/AdminOrders';
-import AdminLogin from '../components/AdminLogin';
+import ProtectedRoute from '../utils/ProtectedRoute';
 
 const AppRoutes = () => {
   return (
     <BrowserRouter>
-      <AdminLayout>
-        <Routes>
-          <Route path="/admin" element={<AdminDashboard />} />
-          <Route path="/admin/products" element={<AdminProducts />} />
-          <Route path="/admin/orders" element={<AdminOrders />} />
-          <Route path="/" element={<AdminLogin />} />
-        </Routes>
-      </AdminLayout>
+      <Routes>
+        {/* Public */}
+        <Route path="/" element={<AdminLogin />} />
+
+        {/* Protected */}
+        <Route
+          path="/admin"
+          element={
+            <ProtectedRoute>
+              <AdminLayout />
+            </ProtectedRoute>
+          }
+        >
+          <Route index element={<AdminDashboard />} />
+          <Route path="products" element={<AdminProducts />} />
+          <Route path="orders" element={<AdminOrders />} />
+        </Route>
+      </Routes>
     </BrowserRouter>
   );
 };

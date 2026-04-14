@@ -13,6 +13,13 @@ const Success = () => {
 
   const orderId = params.get('orderId');
 
+  //   URL:
+  // http://localhost:3000/success?orderId=ord123
+
+  // ↓
+
+  // orderId = "ord123"
+
   // useEffect(() => {
   //   const confirmPayment = async () => {
   //     try {
