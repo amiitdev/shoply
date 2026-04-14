@@ -13,6 +13,7 @@ app.use(cookieParser());
 
 const allowedOrigins = [
   'https://shoply-sage.vercel.app',
+  'https://shoply-uefs.vercel.app',
   'http://localhost:5173',
   'http://localhost:5174',
 ];
